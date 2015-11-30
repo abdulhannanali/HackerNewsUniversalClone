@@ -22,16 +22,16 @@
         "img":"ycombinator.png"
       },
       {
+        "baseURL": "http://insin.github.io/react-hn/#/story/",
+        "img":"react.png"
+      },
+      {
         "baseURL":"https://hswolff.github.io/hn-ng2/index.html?itemId=",
         "img": "angular.png"
       },
       {
         "baseURL": "http://chancancode.github.io/hn-reader/item?id=",
         "img":"ember.png"
-      },
-      {
-        "baseURL": "http://insin.github.io/react-hn/#/story/",
-        "img":"react.png"
       }
     ]
     // console.log(data);
@@ -44,7 +44,8 @@
       hackerData.discussImages = [];
       hackerData.score = value.score;
       hackerData.by = value.by;
-
+      hackerData.id = value.id;
+      hackerData.time = ux_time(value.time)
       hnClients.forEach(function (val, index, array) {
         hackerData.discussImages.push({imgUrl: array[index].baseURL + value.id, imgSrc: hackerImageDir + array[index].img})
       })
@@ -54,5 +55,10 @@
     })
 
     // return hackerTemplateData;
+  }
+
+  function ux_time (uxms) {
+    var time = new Date(uxms * 1000);
+    return time;
   }
 }())

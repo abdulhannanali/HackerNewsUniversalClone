@@ -20,6 +20,11 @@
           <h3>We currently support</h3>
           <div class="frameworksChip">
             <div class="chip">
+              <a href="https://news.ycombinator.com">Original YCombinator!</a>
+              <img src="icons/chipicons/ycombinator.png" alt="ycombinator icon" />
+              <i class="material-icons">close</i>
+            </div>
+            <div class="chip">
               <a href="http://insin.github.io/react-hn">Hacker News React</a>
               <img src="icons/chipicons/react.png" alt="react icon" />
               <i class="material-icons">close</i>
@@ -66,12 +71,19 @@
           <div class="card-content black-text">
             <span class="card-title"><a href="{{:url}}">{{:title}}</a><span class="badge orange white-text">{{:score}}</span></span>
             <br>
-            Posted by <a href="https://news.ycombinator.com/user?id={{:by}}">{{:by}}</a>
+            Posted by <a href="https://news.ycombinator.com/user?id={{:by}}">{{:by}}</a><br>
+            Posted on {{:time}}
           </div>
           <div class="card-action">
             {{for discussImages}}
               <a href="{{:imgUrl}}"><img src="{{:imgSrc}}" class="img"></a>
             {{/for}}
+
+            <div class="right">
+              <a  href="https://hacker-news.firebaseio.com/v0/item/{{:id}}.json" target="_blank">RAW</a>
+              <a href="#">PDF</a>
+              <a href="#">HTML</a>
+            </div>
           </div>
         </div>
       </div>

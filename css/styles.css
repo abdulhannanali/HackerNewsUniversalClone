@@ -7,3 +7,7 @@ img  {
 img:hover {
   opacity: 1.0;
 }
+
+.chip {
+  margin: 5px;
+}
