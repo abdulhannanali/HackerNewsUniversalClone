@@ -1,0 +1,29 @@
+{
+  "name": "HackerNewsUniversalClone",
+  "homepage": "https://github.com/abdulhannanali/HackerNewsUniversalClone",
+  "authors": [
+    "Abdul Hannan Ali <abdulhannanali@outlook.com>"
+  ],
+  "description": "This is a Hacker News clone which lets you see the clicked hacker news top store in hacker news clone from various frameworks such as hn-react hn-angular etc.",
+  "main": "index.html",
+  "moduleType": [],
+  "keywords": [
+    "hackernews",
+    "ycombinator",
+    "hacker",
+    "news",
+    "clone"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "Materialize": "materialize#~0.97.3",
+    "jquery": "~2.1.4"
+  }
+}
