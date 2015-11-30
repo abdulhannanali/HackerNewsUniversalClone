@@ -5,8 +5,8 @@
     <title>Hacker News Universal Clone!!!</title>
     <link rel="shortcut icon" href="icons/globe.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css" title="materialize stylesheet" charset="utf-8">
+    <link rel="stylesheet" href="css/styles.css" charset="utf-8">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
   </head>
   <body>
     <nav class="orange accent-4">
@@ -37,8 +37,44 @@
           </div>
         </div>
       </div>
+      <div class="row">
+        <div class="col s12">
+          <h2 class="orange-text text-accent-2">Top Stories</h2>
+        </div>
+      </div>
+      <div class="row" id="progressBar" style="display:none;">
+        <div class="progress orange">
+          <div class="indeterminate blue-grey lighten-5">
+          </div>
+        </div>
+      </div>
+      <div class="row" id="topStoriesGrid">
+      </div>
     </div>
   </body>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
+  <script type="text/javascript" src="bower_components/jsrender/jsrender.min.js"></script>
+
+  <!-- my own fucking scripts  -->
+  <script type="text/javascript" src="js/scripts.js"></script>
+  <script type="text/javascript" src="js/hacker.js"></script>
+  <script type="text/x-jsrender" id="hackerCardTemplate">
+    <div class="row" class="topStory">
+      <div class="col s12">
+        <div class="card blue-grey lighten-5">
+          <div class="card-content black-text">
+            <span class="card-title"><a href="{{:url}}">{{:title}}</a><span class="badge orange white-text">{{:score}}</span></span>
+            <br>
+            Posted by <a href="https://news.ycombinator.com/user?id={{:by}}">{{:by}}</a>
+          </div>
+          <div class="card-action">
+            {{for discussImages}}
+              <a href="{{:imgUrl}}"><img src="{{:imgSrc}}" class="img"></a>
+            {{/for}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </script>
 </html>
