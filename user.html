@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Hacker News User Information Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css" title="materialize stylesheet" charset="utf-8">
+    <link rel="stylesheet" href="css/styles.css" charset="utf-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  </head>
+  <body>
+    <!-- sweet little nav bar -->
+    <nav class="orange accent-4">
+      <div class="nav-wrapper">
+        <a href="/" class=" center brand-logo">Hacker News Goes Universal!!!</a>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="row" id="progressBar">
+        <div class="progress orange">
+          <div class="indeterminate blue-grey lighten-5">
+          </div>
+        </div>
+      </div>
+      <div id="errorProfile" style="display:none;">
+        <div class="row">
+          <div class="col s12">
+            <h3 id="errorMessage"></h3>
+          </div>
+        </div>
+      </div>
+      <div id="userProfile" style="display:none;">
+        <div class="row">
+          <div class="col s12">
+            <h2><span id="id" class="orange-text">jgrahamc</span> - hacker news profile</h2>
+            <div class="card blue-grey lighten-5" id="karmaCard">
+              <div class="card-content black-text">
+                <h3>user has <span class="orange-text" id="karma">31123</span> of karma</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" id="creationCard">
+          <div class="col s12">
+            <div class="card orange lighten-5">
+              <div class="card-content black-text">
+                <h3>created this account <span class="orange-text" id="days">2331</span> days ago</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" id="aboutCard">
+          <div class="col s12">
+            <div class="card orange lighten-2">
+              <div class="card-content black-text">
+                <h4>about</h2>
+                <p id="about">
+
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" id="submissionCard">
+          <div class="col s12">
+            <div class="card amber accent-2">
+              <div class="card-content black-text">
+                <h5>submissions</h5>
+                <a id="submissionBtn" class="waves-effect waves-light btn orange white-text" href="#">Retrieve submissions</a>
+                <div id="submissionDisplay">
+                </div>
+                <div class="center"><a id="loadMoreSubmissionsBtn" class="orange center waves-effect waves-light btn organge white-text" href="#" style="display:none; ">Retrieve More Submissions</a></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/js-url/2.0.2/url.min.js"></script>
+
+  <!-- my own scripts -->
+  <script type="text/javascript" src="js/hacker.js"></script>
+  <script type="text/javascript">
+
+    (function () {
+      $(document).ready(function(){
+
+
+        var id = $("#id");
+        var karma = $("#karma");
+        var days = $("#days");
+        var about = $("#about");
+
+        var aboutCard = $("#aboutCard");
+
+        var progressBar = $("#progressBar");
+
+        var submissions = [];
+
+        var query = url("?");
+        if (!query.id || query.id == "") {
+          // TODO: display an error
+        }
+        else {
+          hacker.getUserDetails(query.id)
+            .done(function (data) {
+              id.text(data.id);
+              karma.text(data.karma);
+              days.text(calculateDays(data.created));
+
+              if (!data.about) {
+                aboutCard.hide();
+              }
+              else {
+                about.html(data.about);
+              }
+
+              submissions = data.submitted;
+              progressBar.hide();
+              $("#userProfile").show();
+
+              loadSubmission();
+          })
+          .fail(function() {
+            errorMessage("Sorry an error occured");
+          })
+
+        }
+
+
+        function loadSubmission () {
+          $("#submissionBtn").click(function (event) {
+            event.preventDefault();
+            var user = url("?").id;
+            var submissionDisplay = $("#submissionDisplay");
+            $("#submissionBtn").hide();
+            if (submissions[0]) {
+              retrieveSubmissions(submissions, 0, 50)
+            } else {
+              $("#submissionDisplay").text("No submissions by the user to display")
+            }
+            if (submissionCount < submissions.length) {
+              var submissionCount = 50;
+              loadMoreSubmission(submissions, submissionCount)
+            }
+          })
+        }
+      })
+
+      function loadMoreSubmission(submissions, submissionCount) {
+        // if we have exhausted the submission array
+        $("#loadMoreSubmissionsBtn").show();
+        $("#loadMoreSubmissionsBtn").click(function (event) {
+          event.preventDefault();
+          retrieveSubmissions(submissions, submissionCount);
+          submissionCount += 50;
+          if (submissionCount > submissions.length) {
+            $(this).hide();
+          }
+        })
+
+      }
+
+      function retrieveSubmissions(submissions, submissionCount) {
+        submissions.splice(submissionCount, submissionCount + 50).forEach(function(value, index, array) {
+          hacker.getStoryDetails(value)
+            .done(function (data) {
+              if (!data.deleted &&
+                  data.title) {
+                  $("<a>")
+                    .attr("href", "https://news.ycombinator.com/item?id=" + data.id)
+                    .append($("<h5 class='green-text'>").text(data.title))
+                    .appendTo(submissionDisplay);
+              }
+            })
+            .fail(function () {
+                console.log("error");
+            })
+        })
+      }
+
+      function calculateDays (duration) {
+        var msInDay = 86400 * 1000;
+
+        var today = Date.now();
+        var duration = duration * 1000;
+
+        var totalTime = today - duration;
+
+        return Math.round(totalTime / msInDay)
+      }
+
+      function errorMessage(text) {
+        var progressBar = $("#progressBar");
+        var userProfile =  $("#userProfile");
+
+        var errorProfile = $("#errorProfile");
+        var errorMessage = $("#errorMessage");
+
+        errorMessage.text(text);
+        errorProfile.show();
+
+      }
+
+
+    }())
+  </script>
+</html>

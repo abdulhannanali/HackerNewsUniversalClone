@@ -1,6 +1,7 @@
 var hacker = (function ($){
   var topStoriesBaseUrl = "https://hacker-news.firebaseio.com/v0/topstories.json";
   var itemBaseUrl = "https://hacker-news.firebaseio.com/v0/item/"
+  var userBaseUrl = "https://hacker-news.firebaseio.com/v0/user/"
 
   function getTopStories (limit) {
     if (!limit) {
@@ -47,10 +48,18 @@ var hacker = (function ($){
     return dfd.promise();
   }
 
+
+  function getUserDetails(user) {
+    var userUrl = userBaseUrl + user + ".json";
+
+    return $.get(userUrl);
+  }
+
   var hacker  = {
     getTopStories: getTopStories,
     getStoryDetails: getStoryDetails,
-    populateTopStories: populateTopStories
+    populateTopStories: populateTopStories,
+    getUserDetails: getUserDetails
   }
 
   return hacker;
