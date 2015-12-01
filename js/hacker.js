@@ -49,6 +49,7 @@ var hacker = (function ($){
   }
 
 
+
   function getUserDetails(user) {
     var userUrl = userBaseUrl + user + ".json";
 

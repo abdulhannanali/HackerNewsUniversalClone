@@ -2,13 +2,23 @@
   $(document).ready(function () {
     $("#progressBar").show();
     var hackerCardTemplate = $.templates("#hackerCardTemplate");
+    var errorBoxTemplate = $.templates("#errorBoxTemplate");
     var storiesGrid = $("#topStoriesGrid");
+    $('.modal-trigger').leanModal();
 
-    hacker.populateTopStories(100).done(function (data) {
+    hacker.populateTopStories(20).done(function (data) {
       $("#progressBar").hide();
 
       hackerTemplateRenderify(data, storiesGrid, hackerCardTemplate);
       // storiesGrid.append($(hackerCardTemplate.render(hackerTemplateDatify(data))));
+    }).fail(function () {
+      errorBoxTemplate.render(
+      {
+        modalId: "errorModal",
+        errorText: "Sorry! An error occured",
+        errorMessage: "We are very sorry an error occured. Please check your internet conection"
+      }).appendTo($("body"))
+      $("#errorModal").openModal();
     })
   })
 

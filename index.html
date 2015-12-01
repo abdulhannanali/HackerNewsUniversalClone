@@ -22,26 +22,22 @@
             <div class="chip">
               <a href="https://news.ycombinator.com">Original YCombinator!</a>
               <img src="icons/chipicons/ycombinator.png" alt="ycombinator icon" />
-              <i class="material-icons">close</i>
             </div>
             <div class="chip">
               <a href="http://insin.github.io/react-hn">Hacker News React</a>
               <img src="icons/chipicons/react.png" alt="react icon" />
-              <i class="material-icons">close</i>
             </div>
-            <div class="chip">
-              <a href="https://hswolff.github.io/hn-ng2/">Hacker News Angular 2</a>
             <div class="chip">
               <img src="icons/chipicons/angular.png" alt="angular icon" />
-              <i class="material-icons">close</i>
+              <a href="https://hswolff.github.io/hn-ng2/">Hacker News Angular 2</a>
             </div>
+            <div class="chip">
               <img src="icons/chipicons/ember.png" alt="ember icon" />
               <a href="http://chancancode.github.io/hn-reader/">Hacker News Ember</a>
-              <i class="material-icons">close</i>
+            </div>
             </div>
           </div>
         </div>
-      </div>
       <div class="row">
         <div class="col s12">
           <h2 class="orange-text text-accent-2">Top Stories</h2>
@@ -86,6 +82,17 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </script>
+  <script type="text/x-jsrender" id="errorBoxTemplate">
+    <div id="{{:modalId}}" class="modal">
+      <div class="modal-content">
+        <h4 class="red-text">{{:errorText}}</h4>
+        <p>{{:errorMessage}}</p>
+      </div>
+      <div class="modal-footer">
+        <a href="#!" class="modal-action modal-close waves-effect waves-orange btn-flat">Okay!</a>
       </div>
     </div>
   </script>
